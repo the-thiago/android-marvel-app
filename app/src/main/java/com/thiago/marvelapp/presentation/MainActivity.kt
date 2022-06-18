@@ -3,7 +3,9 @@ package com.thiago.marvelapp.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
@@ -14,6 +16,7 @@ import com.thiago.marvelapp.ui.theme.MarvelAppTheme
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val items = listOf(BottomBarItem.Characters, BottomBarItem.Favorites, BottomBarItem.About)
@@ -32,7 +35,10 @@ class MainActivity : ComponentActivity() {
                     },
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    AppNavigation(navHostController = navHostController)
+                    AppNavigation(
+                        modifier = Modifier.padding(it),
+                        navHostController = navHostController
+                    )
                 }
             }
         }

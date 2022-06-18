@@ -22,8 +22,8 @@ internal fun AboutScreen() {
             }
         },
         modifier = Modifier.fillMaxSize()
-    ) { scaffoldPadding ->
-        Column(modifier = Modifier.padding(scaffoldPadding)) {
+    ) {
+        Column(modifier = Modifier.padding(it)) {
             Text(text = "AboutScreen")
         }
     }
