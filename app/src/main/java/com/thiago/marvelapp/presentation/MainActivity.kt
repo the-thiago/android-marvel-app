@@ -1,4 +1,4 @@
-package com.thiago.marvelapp
+package com.thiago.marvelapp.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
