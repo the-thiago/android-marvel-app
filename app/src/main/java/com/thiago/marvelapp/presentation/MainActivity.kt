@@ -4,40 +4,37 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.thiago.marvelapp.presentation.navigation.AppNavigation
+import com.thiago.marvelapp.presentation.navigation.BottomBar
+import com.thiago.marvelapp.presentation.navigation.BottomBarItem
 import com.thiago.marvelapp.ui.theme.MarvelAppTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val items = listOf(BottomBarItem.Characters, BottomBarItem.Favorites, BottomBarItem.About)
         setContent {
             MarvelAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                val navHostController = rememberNavController()
+                Scaffold(
+                    bottomBar = {
+                        BottomBar(
+                            items = items,
+                            navHostController = navHostController,
+                            onItemClick = { route ->
+                                navHostController.navigate(route)
+                            }
+                        )
+                    },
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Greeting("Android")
+                    AppNavigation(navHostController = navHostController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MarvelAppTheme {
-        Greeting("Android")
     }
 }
