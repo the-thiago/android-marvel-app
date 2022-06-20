@@ -13,7 +13,9 @@ import com.thiago.marvelapp.presentation.navigation.AppNavigation
 import com.thiago.marvelapp.presentation.navigation.BottomBar
 import com.thiago.marvelapp.presentation.navigation.BottomBarItem
 import com.thiago.marvelapp.ui.theme.MarvelAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
