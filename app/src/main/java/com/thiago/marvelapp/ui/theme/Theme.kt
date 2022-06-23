@@ -5,6 +5,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -33,6 +35,12 @@ fun MarvelAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
         DarkColorPalette
     } else {
         LightColorPalette
+    }
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = if (darkTheme) colors.background else colors.primaryVariant
+        )
     }
 
     MaterialTheme(

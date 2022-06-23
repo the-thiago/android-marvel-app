@@ -61,6 +61,9 @@ dependencies {
     implementation(project(':core'))
 
     // Accompanist
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-placeholder-material:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.1.0")
@@ -68,6 +71,7 @@ dependencies {
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // Jetpack Compose
     implementation 'androidx.core:core-ktx:1.8.0'
@@ -81,6 +85,7 @@ dependencies {
 
     // Paging3
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha15"
 
     // Tests
     testImplementation 'junit:junit:4.13.2'

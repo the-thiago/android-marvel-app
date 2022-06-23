@@ -11,7 +11,6 @@ import com.thiago.core.domain.model.Comic
 import com.thiago.core.domain.model.Event
 import com.thiago.marvelapp.framework.paging.CharactersPagingSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class CharactersRepositoryImpl @Inject constructor(
@@ -27,8 +26,20 @@ class CharactersRepositoryImpl @Inject constructor(
 //        query: String,
 //        pagingConfig: PagingConfig
 //    ): Flow<PagingData<Character>> {
-//        // TODO
-//        return flowOf(PagingData())
+//        return Pager(
+//            config = pagingConfig,
+////            remoteMediator = CharactersRemoteMediator(query, database, remoteDataSource)
+//        ) {
+//            database.characterDao().pagingSource()
+//        }.flow.map { pagingData ->
+//            pagingData.map {
+//                Character(
+//                    it.id,
+//                    it.name,
+//                    it.imageUrl
+//                )
+//            }
+//        }
 //    }
 
     override suspend fun getComics(characterId: Int): List<Comic> {

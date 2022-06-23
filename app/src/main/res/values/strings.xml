@@ -3,4 +3,7 @@
     <string name="label_characters">Characters</string>
     <string name="label_favorites">Favorites</string>
     <string name="label_about">About</string>
+
+    <string name="characters_loading_error">Error when trying to load heroes</string>
+    <string name="characters_try_again">Try again</string>
 </resources>
