@@ -33,7 +33,9 @@ class CharactersPagingSource(
                 prevKey = null,
                 nextKey = if (responseOffset < totalCharacters) {
                     responseOffset + LIMIT
-                } else null
+                } else {
+                    null
+                }
             )
         } catch (exception: Exception) {
             LoadResult.Error(exception)
