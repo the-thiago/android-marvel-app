@@ -61,9 +61,9 @@ private fun CharactersScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            val isLoading = characters.loadState.refresh == LoadState.Loading
+            val isRefreshing = characters.loadState.refresh == LoadState.Loading
             SwipeRefresh(
-                state = rememberSwipeRefreshState(isLoading),
+                state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
                 onRefresh = { characters.refresh() },
                 indicator = { refreshState, trigger ->
                     SwipeRefreshIndicator(
@@ -75,19 +75,11 @@ private fun CharactersScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 when {
-                    isLoading -> CharactersPlaceholder()
+                    isRefreshing -> CharactersPlaceholder()
                     characters.loadState.refresh is LoadState.Error -> {
-                        CharactersError {
-                            characters.refresh()
-                        }
+                        LoadingCharactersError(onTryAgainClick = characters::refresh)
                     }
-                    else -> {
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            items(items = characters) { item ->
-                                item?.let { Character(item) }
-                            }
-                        }
-                    }
+                    else -> CharactersLazyColumn(characters = characters)
                 }
             }
         }
@@ -95,7 +87,51 @@ private fun CharactersScreen(
 }
 
 @Composable
-private fun CharactersError(onTryAgainClick: () -> Unit) {
+private fun CharactersLazyColumn(characters: LazyPagingItems<Character>) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(items = characters) { item ->
+            item?.let { Character(item) }
+        }
+        item {
+            LoadingIndicator(
+                isLoading = characters.loadState.append == LoadState.Loading
+            )
+            AppendCharactersError(
+                showError = characters.loadState.append is LoadState.Error,
+                onTryAgainClick = characters::retry
+            )
+        }
+    }
+}
+
+@Composable
+private fun LoadingIndicator(isLoading: Boolean) {
+    if (isLoading) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            CircularProgressIndicator(modifier = Modifier.padding(vertical = 16.dp))
+        }
+    }
+}
+
+@Composable
+private fun AppendCharactersError(showError: Boolean, onTryAgainClick: () -> Unit) {
+    if (showError) {
+        Text(
+            modifier = Modifier
+                .clickable { onTryAgainClick() }
+                .fillMaxWidth()
+                .padding(vertical = 24.dp, horizontal = 16.dp),
+            text = stringResource(id = R.string.error_loading_more_try_again),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun LoadingCharactersError(onTryAgainClick: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
