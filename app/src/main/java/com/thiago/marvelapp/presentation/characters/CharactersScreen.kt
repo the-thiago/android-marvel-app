@@ -35,7 +35,7 @@ import com.thiago.marvelapp.presentation.common.appPlaceholder
 
 @Composable
 internal fun CharactersScreen(viewModel: CharactersViewModel = hiltViewModel()) {
-    val characters = viewModel.characters.collectAsLazyPagingItems()
+    val characters = viewModel.charactersPagingData().collectAsLazyPagingItems()
     CharactersScreen(
         state = viewModel.viewState,
         characters = characters,
