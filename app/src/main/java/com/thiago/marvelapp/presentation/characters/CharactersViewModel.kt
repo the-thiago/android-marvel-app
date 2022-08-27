@@ -6,9 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.thiago.core.domain.model.Character
 import com.thiago.core.usecase.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +24,11 @@ class CharactersViewModel @Inject constructor(
     var viewState by mutableStateOf(CharactersViewState.Empty)
         private set
 
-    val characters = getCharactersUseCase(
-        GetCharactersUseCase.GetCharactersParams("", getPageConfig())
-    ).cachedIn(viewModelScope)
+    fun charactersPagingData(): Flow<PagingData<Character>> {
+        return getCharactersUseCase(
+            GetCharactersUseCase.GetCharactersParams("", getPageConfig())
+        ).cachedIn(viewModelScope)
+    }
 
     fun submitAction(action: CharactersAction) {
         viewModelScope.launch {
