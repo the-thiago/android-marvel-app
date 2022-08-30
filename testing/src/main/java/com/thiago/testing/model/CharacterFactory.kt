@@ -4,6 +4,7 @@ import com.thiago.core.domain.model.Character
 
 class CharacterFactory {
 
+    @SuppressWarnings("MagicNumber")
     fun create(hero: Hero) = when (hero) {
         Hero.ThreeDMan -> Character(
             1011334,
