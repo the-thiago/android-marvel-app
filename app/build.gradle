@@ -7,12 +7,21 @@ apply from: '../config/detekt/detekt.gradle'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
-def apikeyPropertiesFile = rootProject.file("apikey.properties")
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+def propertiesFile = rootProject.file("keys.properties")
+def properties = new Properties()
+properties.load(new FileInputStream(propertiesFile))
 
 android {
     compileSdk 33
+
+    signingConfigs {
+        release {
+            storeFile file("$rootDir/store/marvel_app_key_store.jks")
+            keyAlias ''
+            keyPassword ''
+            storePassword ''
+        }
+    }
 
     defaultConfig {
         applicationId "com.thiago.marvelapp"
@@ -26,14 +35,27 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField "String", "PUBLIC_KEY", apikeyProperties['PUBLIC_KEY']
-        buildConfigField "String", "PRIVATE_KEY", apikeyProperties['PRIVATE_KEY']
+        buildConfigField "String", "PUBLIC_KEY", properties['PUBLIC_KEY']
+        buildConfigField "String", "PRIVATE_KEY", properties['PRIVATE_KEY']
         buildConfigField "String", "BASE_URL", '"https://gateway.marvel.com/v1/public/"'
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            debuggable true
+        }
+        staging {
+            initWith debug
+            minifyEnabled true
+            applicationIdSuffix '.staging'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro',
+                    'proguard-rules-staging.pro'
+        }
         release {
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
